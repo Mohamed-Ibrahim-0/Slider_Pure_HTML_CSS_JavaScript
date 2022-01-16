@@ -1,0 +1,65 @@
+let parentSlider = document.querySelector(".parent");
+let sliderContent = document.querySelectorAll(".slider-content");
+let sliderLength = sliderContent.length;
+let prevBtn = document.getElementById("prev");
+let nextBtn = document.getElementById("next");
+let dotsBox = document.querySelector(".dots-box");
+let startIndex = 0;
+
+// Function Add Value Move The slider
+function moving(valueNum) {
+  parentSlider.style.cssText = `
+    transform: translate(${valueNum}%)
+  `;
+}
+
+prevBtn.addEventListener("click", function () {
+  if (startIndex > 0) {
+    startIndex -= 100;
+  } else {
+    ("");
+  }
+  moving(-startIndex);
+});
+
+nextBtn.addEventListener("click", function () {
+  if (startIndex >= 100 * (sliderLength - 1)) {
+    startIndex -= 100;
+  } else {
+    ("");
+  }
+  startIndex += 100;
+  moving(-startIndex);
+});
+
+// Craete The Ul List dots li
+let ul = document.createElement("ul");
+let active = 0;
+for (let i = 0; i < sliderLength; i++) {
+  let li = document.createElement("li");
+  let liNumber = document.createTextNode(`${i + 1}`);
+
+  li.appendChild(liNumber);
+  ul.appendChild(li);
+}
+dotsBox.appendChild(ul);
+
+let allDots = document.querySelectorAll(".dots-box ul li");
+allDots[active].classList.add("active");
+
+allDots.forEach((li) => {
+  li.addEventListener("click", () => {
+    allDots.forEach((li) => {
+      li.classList.remove("active");
+    });
+    li.classList.add("active");
+  });
+});
+
+allDots.forEach(function (theLi, index) {
+  theLi.addEventListener("click", () => {
+    parentSlider.style.cssText = `
+    transform: translate(${index * -100}%)
+  `;
+  });
+});
